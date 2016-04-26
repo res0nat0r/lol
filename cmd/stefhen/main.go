@@ -1,12 +1,22 @@
 package main
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/gin-gonic/gin"
+	"log"
+	"os"
+)
 
 func main() {
+	port := os.Getenv("PORT")
+
+	if port == "" {
+		log.Fatal("ERROR: $PORT must be set")
+	}
+
 	r := gin.Default()
 
 	r.GET("/stefhen", stefhen)
-	r.Run(":8080")
+	r.Run(":" + port)
 }
 
 func stefhen(c *gin.Context) {
