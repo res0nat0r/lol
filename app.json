@@ -1,14 +1,9 @@
 {
   "name": "stefhen",
-  "description": "Go Getting Started Example App",
+  "description": "LoL API interface",
   "keywords": [
-    "getting-started",
-    "go",
-    "sample",
-    "example"
+    "lol"
   ],
   "image": "heroku/go:1.6",
-  "mount_dir": "cmd/stefhen",
-  "website": "http://github.com/heroku/go-getting-started",
-  "repository": "http://github.com/heroku/go-getting-started"
+  "mount_dir": "cmd/stefhen"
 }
