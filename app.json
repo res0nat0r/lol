@@ -5,5 +5,28 @@
     "lol"
   ],
   "image": "heroku/go:1.6",
-  "mount_dir": "cmd/stefhen"
+  "mount_dir": "cmd/stefhen",
+  "scripts": {
+  },
+  "env": {
+    "GIN_MODE": {
+      "required": true
+    },
+    "RIOT_API_KEY": {
+      "required": true
+    }
+  },
+  "formation": {
+    "web": {
+      "quantity": 1
+    }
+  },
+  "addons": [
+    "swiftype"
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/go"
+    }
+  ]
 }
