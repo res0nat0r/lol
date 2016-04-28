@@ -1,0 +1,26 @@
+{
+  "name": "lol",
+  "scripts": {
+  },
+  "env": {
+    "GIN_MODE": {
+      "required": true
+    },
+    "RIOT_API_KEY": {
+      "required": true
+    }
+  },
+  "formation": {
+    "web": {
+      "quantity": 1
+    }
+  },
+  "addons": [
+    "swiftype"
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/go"
+    }
+  ]
+}
