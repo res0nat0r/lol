@@ -32,7 +32,8 @@ func main() {
 		log.Fatal("$RIOT_API_KEY must be set")
 	}
 
-	r := gin.Default()
+	r := gin.New()
+	r.Use(gin.Logger())
 
 	r.GET("/summoner/:name", summoner)
 
