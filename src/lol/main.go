@@ -61,7 +61,7 @@ func summoner(c *gin.Context) {
 	err = json.Unmarshal(body, &summoner)
 	e(err)
 
-	c.JSON(200, summoner[name])
+	c.JSON(http.StatusOK, summoner[name])
 
 }
 
@@ -73,7 +73,7 @@ func random(c *gin.Context) {
 	resp.Summoner = name
 	resp.UUID = fmt.Sprintf("%s", id)
 
-	c.JSON(200, resp)
+	c.JSON(http.StatusOK, resp)
 }
 
 func e(err error) {
