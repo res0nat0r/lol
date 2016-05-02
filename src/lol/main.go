@@ -2,12 +2,14 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
 
 	"github.com/gin-gonic/gin"
+	"github.com/satori/go.uuid"
 )
 
 var (
@@ -23,6 +25,11 @@ type Summoner struct {
 	SummonerLevel int    `json:"summonerLevel"`
 }
 
+type Random struct {
+	Summoner string `json:"name"`
+	UUID     string `json:"id"`
+}
+
 func main() {
 	if port == "" {
 		log.Fatal("$PORT must be set")
@@ -36,7 +43,7 @@ func main() {
 	r.Use(gin.Logger())
 
 	r.GET("/summoner/:name", summoner)
-
+	r.GET("/random/:name", random)
 	r.Run(":" + port)
 }
 
@@ -56,6 +63,17 @@ func summoner(c *gin.Context) {
 
 	c.JSON(200, summoner[name])
 
+}
+
+func random(c *gin.Context) {
+	var resp Random
+	name := c.Param("name")
+	id := uuid.NewV4()
+
+	resp.Summoner = name
+	resp.UUID = fmt.Sprintf("%s", id)
+
+	c.JSON(200, resp)
 }
 
 func e(err error) {
