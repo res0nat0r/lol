@@ -5,7 +5,7 @@
     "lol"
   ],
   "image": "heroku/go:1.6",
-  "mount_dir": "cmd/stefhen",
+  "mount_dir": "src/lol",
   "scripts": {
   },
   "env": {
@@ -21,9 +21,6 @@
       "quantity": 1
     }
   },
-  "addons": [
-    "swiftype"
-  ],
   "buildpacks": [
     {
       "url": "heroku/go"
