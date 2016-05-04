@@ -2,14 +2,12 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
 
 	"github.com/gin-gonic/gin"
-	"github.com/satori/go.uuid"
 )
 
 var (
@@ -43,7 +41,7 @@ func main() {
 	r.Use(gin.Logger())
 
 	r.GET("/summoner/:name", summoner)
-	r.GET("/random/:name", random)
+
 	r.Run(":" + port)
 }
 
@@ -63,17 +61,6 @@ func summoner(c *gin.Context) {
 
 	c.JSON(http.StatusOK, summoner[name])
 
-}
-
-func random(c *gin.Context) {
-	var resp Random
-	name := c.Param("name")
-	id := uuid.NewV4()
-
-	resp.Summoner = name
-	resp.UUID = fmt.Sprintf("%s", id)
-
-	c.JSON(http.StatusOK, resp)
 }
 
 func e(err error) {
