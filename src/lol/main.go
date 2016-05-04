@@ -36,12 +36,23 @@ func main() {
 	r.Use(gin.Logger())
 
 	r.GET("/summoner/:name", summoner)
+	r.GET("/stats/:name", stats)
 
 	r.Run(":" + port)
 }
 
 func summoner(c *gin.Context) {
 	name := c.Param("name")
+	var player Summoner
+	player = getSummoner(name)
+
+	c.JSON(http.StatusOK, player)
+}
+
+func stats(c *gin.Context) {
+}
+
+func getSummoner(name string) Summoner {
 	var summoner map[string]Summoner
 	url := "https://na.api.pvp.net/api/lol/na/v1.4/summoner/by-name/" + name + "?api_key=" + key
 
@@ -54,8 +65,7 @@ func summoner(c *gin.Context) {
 	err = json.Unmarshal(body, &summoner)
 	e(err)
 
-	c.JSON(http.StatusOK, summoner[name])
-
+	return summoner[name]
 }
 
 func e(err error) {
