@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -50,6 +51,19 @@ func summoner(c *gin.Context) {
 }
 
 func stats(c *gin.Context) {
+	name := c.Param("name")
+	summoner := getSummoner(name)
+	url := "https://na.api.pvp.net/api/lol/na/v1.3/stats/by-summoner/" +
+		string(summoner.Id) + "/summary?season=SEASON2016&api_key=" + key
+
+	resp, err := http.Get(url)
+	e(err)
+
+	body, err := ioutil.ReadAll(resp.Body)
+	e(err)
+
+	b := fmt.Sprintf("%s", body)
+	c.String(http.StatusOK, b)
 }
 
 func getSummoner(name string) Summoner {
