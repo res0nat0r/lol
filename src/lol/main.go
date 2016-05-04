@@ -23,11 +23,6 @@ type Summoner struct {
 	SummonerLevel int    `json:"summonerLevel"`
 }
 
-type Random struct {
-	Summoner string `json:"name"`
-	UUID     string `json:"id"`
-}
-
 func main() {
 	if port == "" {
 		log.Fatal("$PORT must be set")
