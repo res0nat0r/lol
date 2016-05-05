@@ -2,11 +2,11 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -22,6 +22,22 @@ type Summoner struct {
 	ProfileIconID int    `json:"profileIconId"`
 	RevisionDate  int64  `json:"revisionDate"`
 	SummonerLevel int    `json:"summonerLevel"`
+}
+
+type Stats struct {
+	PlayerStatSummaries []struct {
+		AggregatedStats struct {
+			TotalAssists              int `json:"totalAssists"`
+			TotalChampionKills        int `json:"totalChampionKills"`
+			TotalMinionKills          int `json:"totalMinionKills"`
+			TotalNeutralMinionsKilled int `json:"totalNeutralMinionsKilled"`
+			TotalTurretsKilled        int `json:"totalTurretsKilled"`
+		} `json:"aggregatedStats"`
+		ModifyDate            int    `json:"modifyDate"`
+		PlayerStatSummaryType string `json:"playerStatSummaryType"`
+		Wins                  int    `json:"wins"`
+	} `json:"playerStatSummaries"`
+	SummonerID int `json:"summonerId"`
 }
 
 func main() {
@@ -53,8 +69,9 @@ func summoner(c *gin.Context) {
 func stats(c *gin.Context) {
 	name := c.Param("name")
 	summoner := getSummoner(name)
+	var stats Stats
 	url := "https://na.api.pvp.net/api/lol/na/v1.3/stats/by-summoner/" +
-		string(summoner.Id) + "/summary?season=SEASON2016&api_key=" + key
+		strconv.FormatInt(summoner.Id, 10) + "/summary?season=SEASON2016&api_key=" + key
 
 	resp, err := http.Get(url)
 	e(err)
@@ -62,8 +79,10 @@ func stats(c *gin.Context) {
 	body, err := ioutil.ReadAll(resp.Body)
 	e(err)
 
-	b := fmt.Sprintf("%s", body)
-	c.String(http.StatusOK, b)
+	err = json.Unmarshal(body, &stats)
+	e(err)
+
+	c.JSON(http.StatusOK, stats)
 }
 
 func getSummoner(name string) Summoner {
