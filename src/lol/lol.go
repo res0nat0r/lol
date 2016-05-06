@@ -8,7 +8,6 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -21,9 +20,9 @@ var (
 // Summoner holds various summoner data.
 type Summoner struct {
 	Name          string `json:"name"`
-	Id            int64  `json:"id"`
+	ID            int    `json:"id"`
 	ProfileIconID int    `json:"profileIconId"`
-	RevisionDate  int64  `json:"revisionDate"`
+	RevisionDate  int    `json:"revisionDate"`
 	SummonerLevel int    `json:"summonerLevel"`
 }
 
@@ -78,7 +77,7 @@ func stats(c *gin.Context) {
 
 	var stats Stats
 	url := "https://na.api.pvp.net/api/lol/na/v1.3/stats/by-summoner/" +
-		strconv.FormatInt(summoner.Id, 10) + "/summary?season=SEASON" + season + "&api_key=" + key
+		string(summoner.ID) + "/summary?season=SEASON" + season + "&api_key=" + key
 
 	resp, err := http.Get(url)
 	e(err)
