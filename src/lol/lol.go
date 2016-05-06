@@ -58,7 +58,7 @@ func New() {
 	r.Use(gin.Logger())
 
 	r.GET("/summoner/:name", summoner)
-	r.GET("/stats/:name", stats)
+	r.GET("/stats/:season/:name", stats)
 
 	r.Run(":" + port)
 }
@@ -74,9 +74,11 @@ func summoner(c *gin.Context) {
 func stats(c *gin.Context) {
 	name := c.Param("name")
 	summoner := getSummoner(name)
+	season := c.Param("season")
+
 	var stats Stats
 	url := "https://na.api.pvp.net/api/lol/na/v1.3/stats/by-summoner/" +
-		strconv.FormatInt(summoner.Id, 10) + "/summary?season=SEASON2016&api_key=" + key
+		strconv.FormatInt(summoner.Id, 10) + "/summary?season=SEASON" + season + "&api_key=" + key
 
 	resp, err := http.Get(url)
 	e(err)
