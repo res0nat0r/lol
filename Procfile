@@ -1,1 +1,1 @@
-web: lol
+web: main
