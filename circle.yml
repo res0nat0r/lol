@@ -1,0 +1,4 @@
+dependencies:
+  override:
+    - go get -v -d -v ./...
+    - go build -v 
